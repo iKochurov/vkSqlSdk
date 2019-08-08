@@ -1,26 +1,17 @@
 package com.htccs.android.vkmusic;
 
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
-import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
-import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKError;
-import com.vk.sdk.api.VKParameters;
-import com.vk.sdk.api.VKRequest;
-import com.vk.sdk.api.model.VkAudioArray;
-
-import java.util.Collections;
 
 
-public class MainActivity extends android.app.Activity {
+public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +28,10 @@ public class MainActivity extends android.app.Activity {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Успешно!", Toast.LENGTH_SHORT);
                 toast.show();
-                VKRequest request = VKApi.users().get(VKParameters.from(VKApi.audio()));
+
+                Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+                startActivity(intent);
+
             }
             @Override
             public void onError(VKError error) {
