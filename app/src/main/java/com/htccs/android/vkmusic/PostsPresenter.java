@@ -2,6 +2,7 @@ package com.htccs.android.vkmusic;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
@@ -35,6 +36,17 @@ public class PostsPresenter implements IPostsPresenter {
         GsonBuilder builder = new GsonBuilder();
         gson = builder.create();
 
+        final VKRequest vkRequest = VKApi.groups().get(VKParameters.from(VKApiConst.USER_ID));
+        vkRequest.executeWithListener(new VKRequest.VKRequestListener() {
+            @Override
+            public void onComplete(VKResponse response) {
+                super.onComplete(response);
+                ListGroup listGroup = gson.fromJson(response.json.toString(),ListGroup.class);
+                List list = listGroup.getResponse().getItems();
+
+            }
+        });
+
         final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", "1959"));
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
@@ -53,7 +65,7 @@ public class PostsPresenter implements IPostsPresenter {
                         public void onComplete(VKResponse response) {
                             super.onComplete(response);
                             try {
-                                System.out.println(response.json.toString());
+
                                 WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
                                 List<Item> itemList = wallInfo.getResponse().getItems();
 
@@ -66,9 +78,9 @@ public class PostsPresenter implements IPostsPresenter {
 
                                     try {
                                         String urlPicture = itemPost.getAttachments().get(0).getPhoto().getPhoto_size();
-                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), urlPicture, countLike,countRepost));
+                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), urlPicture, countLike, countRepost));
                                     } catch (NullPointerException e) {
-                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), countLike,countRepost));
+                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), countLike, countRepost));
                                     }
                                     postsView.setData(cardWalls);
                                 }

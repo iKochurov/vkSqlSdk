@@ -17,7 +17,13 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        VKSdk.login(this);
+
+        if (VKSdk.isLoggedIn()) {
+            Intent intent = new Intent(MainActivity.this, PostsActivity.class);
+            startActivity(intent);
+        } else {
+            VKSdk.login(this);
+        }
     }
 
     @Override
@@ -32,15 +38,18 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(MainActivity.this, PostsActivity.class);
                 startActivity(intent);
             }
+
             @Override
             public void onError(VKError error) {
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Косяк!", Toast.LENGTH_SHORT);
-                toast.show();             }
+                toast.show();
+            }
         })) {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
+
 }
 
 

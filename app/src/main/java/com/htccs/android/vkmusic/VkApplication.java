@@ -6,8 +6,10 @@ import com.vk.sdk.VKSdk;
 
 public class VkApplication extends Application {
 
-        public void onCreate() {
-            super.onCreate();
-            VKSdk.initialize(this);
-        }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        VKSdk.initialize(this);
+
+    }
 }
