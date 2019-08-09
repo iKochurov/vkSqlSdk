@@ -62,7 +62,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             picturePost = itemView.findViewById(R.id.picture_post);
             cardLike = itemView.findViewById(R.id.count_like);
             cardRepost = itemView.findViewById(R.id.count_repost);
-
         }
 
         public void populateIcon(CardWall cardWall){

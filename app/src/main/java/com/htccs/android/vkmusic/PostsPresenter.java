@@ -41,9 +41,22 @@ public class PostsPresenter implements IPostsPresenter {
             @Override
             public void onComplete(VKResponse response) {
                 super.onComplete(response);
-                ListGroup listGroup = gson.fromJson(response.json.toString(),ListGroup.class);
-                List list = listGroup.getResponse().getItems();
+                ListGroup list = gson.fromJson(response.json.toString(), ListGroup.class);
+                List listGroup = list.getResponse().getItems();
 
+                for (int i = 0; i < listGroup.size(); i++) {
+                    String idGroup = listGroup.get(i).toString();
+                    final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", idGroup));
+                    request.executeWithListener(new VKRequest.VKRequestListener() {
+                        @Override
+                        public void onComplete(VKResponse response) {
+                            super.onComplete(response);
+
+                            String jsonText = response.json.toString();
+                            final GroupInfo groupInfo = gson.fromJson(jsonText, GroupInfo.class);
+                        }
+                    });
+                }
             }
         });
 
