@@ -35,6 +35,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         holder.populateIcon(cardWalls.get(position));
         holder.populatePicture(cardWalls.get(position));
         holder.cardLike.setText(cardWalls.get(position).cardLike);
+        holder.cardRepost.setText(cardWalls.get(position).cardRepost);
+
     }
 
     @Override
@@ -49,6 +51,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView textPost;
         ImageView picturePost;
         TextView cardLike;
+        TextView cardRepost;
 
         public CardWallHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,6 +61,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             iconGroup = itemView.findViewById(R.id.icon_group);
             picturePost = itemView.findViewById(R.id.picture_post);
             cardLike = itemView.findViewById(R.id.count_like);
+            cardRepost = itemView.findViewById(R.id.count_repost);
+
         }
 
         public void populateIcon(CardWall cardWall){

@@ -29,9 +29,8 @@ public class MainActivity extends Activity {
                         "Успешно!", Toast.LENGTH_SHORT);
                 toast.show();
 
-                Intent intent = new Intent(MainActivity.this, PlayerActivity.class);
+                Intent intent = new Intent(MainActivity.this, PostsActivity.class);
                 startActivity(intent);
-
             }
             @Override
             public void onError(VKError error) {

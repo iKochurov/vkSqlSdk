@@ -37,9 +37,6 @@ public class Item {
     @SerializedName("reposts")
     @Expose
     private Reposts reposts;
-    @SerializedName("views")
-    @Expose
-    private Views views;
 
     public Integer getId() {
         return id;
@@ -121,11 +118,4 @@ public class Item {
         this.reposts = reposts;
     }
 
-    public Views getViews() {
-        return views;
-    }
-
-    public void setViews(Views views) {
-        this.views = views;
-    }
 }

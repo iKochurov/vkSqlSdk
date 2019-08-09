@@ -1,11 +1,5 @@
 package com.htccs.android.vkmusic;
 
-import android.app.Activity;
-import android.os.Bundle;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.vk.sdk.api.VKApiConst;
@@ -21,25 +15,25 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PlayerActivity extends Activity {
+public class PostsPresenter implements IPostsPresenter {
 
-    ArrayList<CardWall> cardWalls = new ArrayList<>(10);
-    LinearLayoutManager layoutManagerForCards;
-    Gson gson;
-    String urlPicture = null;
-
-    RecyclerView recyclerView;
+    private ArrayList<CardWall> cardWalls = new ArrayList<>();
+    private Gson gson;
+    private PostsView postsView;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_player);
-        recyclerView = findViewById(R.id.recycler_list);
-        layoutManagerForCards = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(layoutManagerForCards);
+    public void setView(PostsView postsView) {
+        this.postsView = postsView;
+    }
+
+    @Override
+    public void sendingModel() {
+        receptionData();
+    }
+
+    private void receptionData() {
         GsonBuilder builder = new GsonBuilder();
         gson = builder.create();
-
 
         final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", "1959"));
         request.executeWithListener(new VKRequest.VKRequestListener() {
@@ -54,6 +48,7 @@ public class PlayerActivity extends Activity {
                     VKRequest requestWall = new VKApiWall()
                             .get(VKParameters.from(VKApiConst.OWNER_ID, "-" + vkList.get(0).fields.getInt("id"), VKApiConst.COUNT, 10));
                     requestWall.executeWithListener(new VKRequest.VKRequestListener() {
+
                         @Override
                         public void onComplete(VKResponse response) {
                             super.onComplete(response);
@@ -67,21 +62,19 @@ public class PlayerActivity extends Activity {
                                     Item itemPost = itemList.get(i);
                                     String urlIcon = groupInfo.getResponse().get(0).getPhoto50();
                                     String countLike = itemPost.getLikes().getCount().toString();
+                                    String countRepost = itemPost.getReposts().getCount().toString();
 
                                     try {
-                                        urlPicture = itemPost.getAttachments().get(0).getPhoto().getPhoto_size();
-                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), urlPicture, countLike));
-                                        System.out.println(itemPost.getText());
+                                        String urlPicture = itemPost.getAttachments().get(0).getPhoto().getPhoto_size();
+                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), urlPicture, countLike,countRepost));
                                     } catch (NullPointerException e) {
-                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), countLike));
+                                        cardWalls.add(new CardWall(groupInfo.getResponse().get(0).getName(), urlIcon, itemPost.getText(), countLike,countRepost));
                                     }
+                                    postsView.setData(cardWalls);
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-
-                            RecyclerViewAdapter adapter = new RecyclerViewAdapter(cardWalls);
-                            recyclerView.setAdapter(adapter);
                         }
                     });
                 } catch (JSONException e) {
@@ -91,4 +84,3 @@ public class PlayerActivity extends Activity {
         });
     }
 }
-
