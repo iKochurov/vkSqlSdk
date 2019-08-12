@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
+import com.htccs.android.vkmusic.ListGroups.PostsActivity;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
@@ -49,7 +50,6 @@ public class MainActivity extends Activity {
             super.onActivityResult(requestCode, resultCode, data);
         }
     }
-
 }
 
 

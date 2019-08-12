@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic;
+package com.htccs.android.vkmusic.WallGroup;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +11,7 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.htccs.android.vkmusic.R;
 
 import java.util.List;
 
@@ -80,6 +81,13 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     }
 
     RecyclerViewAdapter(List cardWalls) {
+        this.cardWalls = cardWalls;
+    }
+
+    RecyclerViewAdapter() {
+    }
+
+    public void setCardWalls(List cardWalls) {
         this.cardWalls = cardWalls;
     }
 }

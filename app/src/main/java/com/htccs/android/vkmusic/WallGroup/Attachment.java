@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic;
+package com.htccs.android.vkmusic.WallGroup;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

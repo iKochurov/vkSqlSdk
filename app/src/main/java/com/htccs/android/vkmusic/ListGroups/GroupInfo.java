@@ -1,8 +1,9 @@
-package com.htccs.android.vkmusic;
+package com.htccs.android.vkmusic.ListGroups;
 
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.htccs.android.vkmusic.WallGroup.ResponseGroup;
 
 import java.util.List;
 

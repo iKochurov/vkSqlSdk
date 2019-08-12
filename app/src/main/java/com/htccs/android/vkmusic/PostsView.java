@@ -4,5 +4,5 @@ import java.util.ArrayList;
 
 public interface PostsView {
 
-    void setData(ArrayList<CardWall> cardWalls);
+    void setData(ArrayList cardWalls);
 }

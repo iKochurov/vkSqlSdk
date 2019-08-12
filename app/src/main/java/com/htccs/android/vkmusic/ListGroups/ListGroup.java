@@ -1,18 +1,19 @@
-package com.htccs.android.vkmusic;
+package com.htccs.android.vkmusic.ListGroups;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class WallInfo {
+public class ListGroup {
+
     @SerializedName("response")
     @Expose
-    private ResponseWall response;
+    private ResponseListGroup response;
 
-    public ResponseWall getResponse() {
+    public ResponseListGroup getResponse() {
         return response;
     }
 
-    public void setResponse(ResponseWall response) {
+    public void setResponse(ResponseListGroup response) {
         this.response = response;
     }
 }

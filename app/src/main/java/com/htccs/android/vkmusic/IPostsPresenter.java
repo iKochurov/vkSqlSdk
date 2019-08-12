@@ -5,4 +5,5 @@ public interface IPostsPresenter {
         void setView(PostsView postsView);
 
         void sendingModel();
+
 }

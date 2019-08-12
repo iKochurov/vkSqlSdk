@@ -1,8 +1,10 @@
-package com.htccs.android.vkmusic;
+package com.htccs.android.vkmusic.WallGroup;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.vk.sdk.api.VKApi;
+import com.htccs.android.vkmusic.IPostsPresenter;
+import com.htccs.android.vkmusic.ListGroups.GroupInfo;
+import com.htccs.android.vkmusic.PostsView;
 import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
@@ -16,11 +18,16 @@ import org.json.JSONException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostsPresenter implements IPostsPresenter {
+public class WallCard implements IPostsPresenter {
 
     private ArrayList<CardWall> cardWalls = new ArrayList<>();
     private Gson gson;
     private PostsView postsView;
+    private String numbergroup;
+
+    WallCard(String numbergroup) {
+        this.numbergroup = numbergroup;
+    }
 
     @Override
     public void setView(PostsView postsView) {
@@ -36,31 +43,7 @@ public class PostsPresenter implements IPostsPresenter {
         GsonBuilder builder = new GsonBuilder();
         gson = builder.create();
 
-        final VKRequest vkRequest = VKApi.groups().get(VKParameters.from(VKApiConst.USER_ID));
-        vkRequest.executeWithListener(new VKRequest.VKRequestListener() {
-            @Override
-            public void onComplete(VKResponse response) {
-                super.onComplete(response);
-                ListGroup list = gson.fromJson(response.json.toString(), ListGroup.class);
-                List listGroup = list.getResponse().getItems();
-
-                for (int i = 0; i < listGroup.size(); i++) {
-                    String idGroup = listGroup.get(i).toString();
-                    final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", idGroup));
-                    request.executeWithListener(new VKRequest.VKRequestListener() {
-                        @Override
-                        public void onComplete(VKResponse response) {
-                            super.onComplete(response);
-
-                            String jsonText = response.json.toString();
-                            final GroupInfo groupInfo = gson.fromJson(jsonText, GroupInfo.class);
-                        }
-                    });
-                }
-            }
-        });
-
-        final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", "1959"));
+        final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", numbergroup));
         request.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(VKResponse response) {

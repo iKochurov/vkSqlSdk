@@ -1,6 +1,7 @@
-package com.htccs.android.vkmusic;
+package com.htccs.android.vkmusic.WallGroup;
 
 public class CardWall {
+
     String cardTitle;
     String cardUrlIcon;
     String cardText;

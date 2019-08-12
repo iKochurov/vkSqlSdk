@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic;
+package com.htccs.android.vkmusic.ListGroups;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class ResponseListGroup {
+
     @SerializedName("count")
     @Expose
     private Integer count;
