@@ -15,6 +15,7 @@ import com.htccs.android.vkmusic.wallgroup.view.WallViewImpl;
 
 public class WallGroupFragment extends Fragment {
 
+    public static final String TAG = WallGroupFragment.class.getSimpleName();
     private static final String GROUP_ID_EXTRA = "groupIdExtra";
 
 

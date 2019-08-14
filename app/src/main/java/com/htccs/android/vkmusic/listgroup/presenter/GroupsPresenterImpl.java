@@ -6,18 +6,19 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.htccs.android.vkmusic.FragmentInteraction;
 import com.htccs.android.vkmusic.listgroup.models.CardGroup;
-import com.htccs.android.vkmusic.listgroup.models.GroupInfo;
-import com.htccs.android.vkmusic.listgroup.models.ListGroup;
+import com.htccs.android.vkmusic.listgroup.models.Items;
+import com.htccs.android.vkmusic.listgroup.models.ResponseListGroup;
 import com.htccs.android.vkmusic.listgroup.view.GroupsView;
 import com.vk.sdk.api.VKApi;
 import com.vk.sdk.api.VKApiConst;
-import com.vk.sdk.api.VKBatchRequest;
+import com.vk.sdk.api.VKError;
 import com.vk.sdk.api.VKParameters;
 import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import static com.htccs.android.vkmusic.listgroup.GroupsListFragment.TAG;
 
 public class GroupsPresenterImpl implements GroupsPresenter {
 
@@ -47,41 +48,30 @@ public class GroupsPresenterImpl implements GroupsPresenter {
 
         gson = builder.create();
 
-        final VKRequest vkRequest = VKApi.groups().get(VKParameters.from(VKApiConst.USER_ID));
+        final VKRequest vkRequest = VKApi.groups().get(VKParameters.from(VKApiConst.FIELDS, "name,photo_50", VKApiConst.EXTENDED, 1));
         vkRequest.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
             public void onComplete(final VKResponse response) {
                 super.onComplete(response);
+                Log.d("response", response.json.toString());
+                ResponseListGroup list = gson.fromJson(response.json.toString(), ResponseListGroup.class);
+                Integer count = list.getResponse().getCount();
 
-                ListGroup list = gson.fromJson(response.json.toString(), ListGroup.class);
-                List listGroup = list.getResponse().getItems();
-                VKRequest[] vkRequestList = new VKRequest[listGroup.size()];
+                for (int i = 0; i < count; i++) {
+                    Items listGroup = list.getResponse().getItems().get(i);
 
-                for (int i = 0; i < listGroup.size(); i++) {
-                    String idGroup = listGroup.get(i).toString();
-                    Log.d("A", idGroup);
-                    VKRequest vkRequest = VKApi.groups().getById(VKParameters.from("group_ids", idGroup));
-                    vkRequestList[i] = vkRequest;
+                    String nameGroup = listGroup.getName();
+                    String iconGroup = listGroup.getPhoto50();
+                    String numberGroup = listGroup.getId().toString();
+                    cardGroups.add(new CardGroup(nameGroup, iconGroup, numberGroup));
                 }
+                groupsView.populateGroupList(cardGroups);
+            }
 
-                VKBatchRequest batchRequest = new VKBatchRequest(vkRequestList);
-                batchRequest.executeWithListener(new VKBatchRequest.VKBatchRequestListener() {
-                    @Override
-                    public void onComplete(VKResponse[] responses) {
-                        super.onComplete(responses);
-                        for (int i = 0; i < responses.length; i++) {
-                            String jsonText = responses[i].json.toString();
-                            final GroupInfo groupInfo = gson.fromJson(jsonText, GroupInfo.class);
-                            String nameGroup = groupInfo.getResponse().get(0).getName();
-                            Log.d("A", nameGroup);
-                            String iconGroup = groupInfo.getResponse().get(0).getPhotoFirstSize();
-                            String numberGroup = groupInfo.getResponse().get(0).getId().toString();
-                            cardGroups.add(new CardGroup(nameGroup, iconGroup, numberGroup));
-                        }
-                        groupsView.populateGroupList(cardGroups);
-                        Log.d("A", String.valueOf(cardGroups.size()));
-                    }
-                });
+            @Override
+            public void onError(VKError error) {
+                super.onError(error);
+                Log.e(TAG, "onError: ", error.httpError);
             }
         });
     }
