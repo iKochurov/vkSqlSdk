@@ -21,7 +21,7 @@ public class WallViewImpl implements WallView {
         recyclerView = view.findViewById(R.id.recycler_list);
         LinearLayoutManager layoutManagerForCards = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManagerForCards);
-        adapter = new WallViewAdapter();
+        adapter = new WallViewAdapter(view.getContext());
     }
 
     public void setPresenter(WallPresenter presenter) {

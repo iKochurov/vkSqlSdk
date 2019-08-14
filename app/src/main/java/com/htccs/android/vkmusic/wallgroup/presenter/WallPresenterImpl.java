@@ -39,7 +39,6 @@ public class WallPresenterImpl implements WallPresenter {
     }
 
     private void receptionData() {
-
         gson = builder.create();
 
         final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", numbergroup));
@@ -61,12 +60,10 @@ public class WallPresenterImpl implements WallPresenter {
                         public void onComplete(VKResponse response) {
                             super.onComplete(response);
                             try {
-
                                 WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
                                 List<Item> itemList = wallInfo.getResponse().getItems();
 
                                 for (int i = 0; i < itemList.size(); i++) {
-
                                     Item itemPost = itemList.get(i);
                                     String nameGroup = groupInfo.getResponse().get(0).getName();
                                     String urlIcon = groupInfo.getResponse().get(0).getPhotoFirstSize();

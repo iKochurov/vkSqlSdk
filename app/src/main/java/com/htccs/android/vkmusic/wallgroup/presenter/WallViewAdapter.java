@@ -1,5 +1,6 @@
 package com.htccs.android.vkmusic.wallgroup.presenter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,35 +12,32 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.wallgroup.models.CardWall;
 
 import java.util.List;
 
-import static com.vk.sdk.VKUIHelper.getApplicationContext;
-
 public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWallHolder> {
 
+    private RequestManager glide;
     private List<CardWall> cardWalls;
+
+    public WallViewAdapter(Context context) {
+        glide = Glide.with(context);
+    }
 
     @NonNull
     @Override
     public CardWallHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cardWall = (CardView) LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.card_view, parent, false);
-
         return new CardWallHolder(cardWall);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CardWallHolder holder, int position) {
-        holder.nameGroup.setText(cardWalls.get(position).cardTitle);
-        holder.textPost.setText(cardWalls.get(position).cardText);
-        holder.populateIcon(cardWalls.get(position));
-        holder.populatePicture(cardWalls.get(position));
-        holder.cardLike.setText(cardWalls.get(position).cardLike);
-        holder.cardRepost.setText(cardWalls.get(position).cardRepost);
-
+        holder.populate(cardWalls.get(position));
     }
 
     @Override
@@ -47,16 +45,16 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
         return cardWalls.size();
     }
 
-    public static class CardWallHolder extends RecyclerView.ViewHolder {
-        CardView cardView;
-        TextView nameGroup;
-        ImageView iconGroup;
-        TextView textPost;
-        ImageView picturePost;
-        TextView cardLike;
-        TextView cardRepost;
+    class CardWallHolder extends RecyclerView.ViewHolder {
+        private CardView cardView;
+        private TextView nameGroup;
+        private ImageView iconGroup;
+        private TextView textPost;
+        private ImageView picturePost;
+        private TextView cardLike;
+        private TextView cardRepost;
 
-        public CardWallHolder(@NonNull View itemView) {
+        CardWallHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.card_list);
             nameGroup = itemView.findViewById(R.id.name_group);
@@ -65,18 +63,28 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             picturePost = itemView.findViewById(R.id.picture_post);
             cardLike = itemView.findViewById(R.id.count_like);
             cardRepost = itemView.findViewById(R.id.count_repost);
+
         }
 
-        public void populateIcon(CardWall cardWall) {
-            Glide
-                    .with(getApplicationContext())
+        void populate(CardWall cardWall) {
+            nameGroup.setText(cardWall.cardTitle);
+            textPost.setText(cardWall.cardText);
+            populateIcon(cardWall);
+            populatePicture(cardWall);
+            cardLike.setText(cardWall.cardLike);
+            cardRepost.setText(cardWall.cardRepost);
+        }
+
+        private void populateIcon(CardWall cardWall) {
+
+            glide
                     .load(cardWall.cardUrlIcon)
                     .into(iconGroup);
         }
 
-        public void populatePicture(CardWall cardWall) {
-            Glide
-                    .with(getApplicationContext())
+        private void populatePicture(CardWall cardWall) {
+
+            glide
                     .load(cardWall.cardUrlPicture)
                     .into(picturePost);
         }

@@ -1,5 +1,6 @@
 package com.htccs.android.vkmusic.listgroup.presenter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,21 +12,21 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.RequestManager;
 import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.listgroup.GroupItemClickListener;
 import com.htccs.android.vkmusic.listgroup.models.CardGroup;
 
 import java.util.List;
 
-import static com.vk.sdk.VKUIHelper.getApplicationContext;
-
 public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.CardGroupHolder> {
 
     private List<CardGroup> cardGroups;
-
     private GroupItemClickListener listener;
+    private RequestManager glide;
 
-    public GroupViewAdapter(GroupItemClickListener listener) {
+    public GroupViewAdapter(GroupItemClickListener listener, Context context) {
+        glide = Glide.with(context);
         this.listener = listener;
     }
 
@@ -41,9 +42,7 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
 
     @Override
     public void onBindViewHolder(@NonNull CardGroupHolder holder, int position) {
-        holder.nameGroup.setText(cardGroups.get(position).nameGroup);
-        holder.populateIcon(cardGroups.get(position));
-        holder.numberGroup = cardGroups.get(position).numberGroup;
+        holder.populate(cardGroups.get(position));
     }
 
     @Override
@@ -51,8 +50,7 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
         return cardGroups.size();
     }
 
-
-    public static class CardGroupHolder extends RecyclerView.ViewHolder {
+    class CardGroupHolder extends RecyclerView.ViewHolder {
 
         CardView cardView;
         TextView nameGroup;
@@ -60,11 +58,11 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
         String numberGroup;
         GroupItemClickListener listener;
 
-        public void setListener(GroupItemClickListener listener) {
+        void setListener(GroupItemClickListener listener) {
             this.listener = listener;
         }
 
-        public CardGroupHolder(@NonNull View itemView) {
+        CardGroupHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.group_list);
             nameGroup = itemView.findViewById(R.id.name_group_list);
@@ -78,9 +76,14 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
             });
         }
 
-        public void populateIcon(CardGroup cardGroup) {
-            Glide
-                    .with(getApplicationContext())
+        void populate(CardGroup cardGroup) {
+            nameGroup.setText(cardGroup.nameGroup);
+            populateIcon(cardGroup);
+            numberGroup = cardGroup.numberGroup;
+        }
+
+        void populateIcon(CardGroup cardGroup) {
+            glide
                     .load(cardGroup.urlIconGroup)
                     .into(iconGroup);
         }

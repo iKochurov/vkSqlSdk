@@ -27,7 +27,7 @@ public class GroupsViewImpl implements GroupsView {
         recyclerView = view.findViewById(R.id.recycler_list);
         LinearLayoutManager layoutManagerForCards = new LinearLayoutManager(view.getContext());
         recyclerView.setLayoutManager(layoutManagerForCards);
-        adapter = new GroupViewAdapter(this);
+        adapter = new GroupViewAdapter(this, view.getContext());
     }
 
 
