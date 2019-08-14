@@ -30,7 +30,7 @@ public class Items {
     private Integer isAdvertiser;
     @SerializedName("photo_50")
     @Expose
-    private String photo50;
+    private String photoFirstSize;
 
     public Integer getId() {
         return id;
@@ -96,12 +96,12 @@ public class Items {
         this.isAdvertiser = isAdvertiser;
     }
 
-    public String getPhoto50() {
-        return photo50;
+    public String getPhotoFirstSize() {
+        return photoFirstSize;
     }
 
-    public void setPhoto50(String photo50) {
-        this.photo50 = photo50;
+    public void setPhotoFirstSize(String photoFirstSize) {
+        this.photoFirstSize = photoFirstSize;
     }
 
 }

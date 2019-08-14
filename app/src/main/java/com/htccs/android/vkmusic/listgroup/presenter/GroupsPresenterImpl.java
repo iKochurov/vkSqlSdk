@@ -61,7 +61,7 @@ public class GroupsPresenterImpl implements GroupsPresenter {
                     Items listGroup = list.getResponse().getItems().get(i);
 
                     String nameGroup = listGroup.getName();
-                    String iconGroup = listGroup.getPhoto50();
+                    String iconGroup = listGroup.getPhotoFirstSize();
                     String numberGroup = listGroup.getId().toString();
                     cardGroups.add(new CardGroup(nameGroup, iconGroup, numberGroup));
                 }
