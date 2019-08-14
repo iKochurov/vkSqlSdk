@@ -10,7 +10,6 @@ import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
-
 public class MainActivity extends Activity {
 
     @Override

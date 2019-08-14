@@ -18,7 +18,6 @@ public class WallGroupFragment extends Fragment {
     public static final String TAG = WallGroupFragment.class.getSimpleName();
     private static final String GROUP_ID_EXTRA = "groupIdExtra";
 
-
     public static WallGroupFragment newInstance(String groupId) {
         Bundle args = new Bundle();
         args.putString(GROUP_ID_EXTRA, groupId);

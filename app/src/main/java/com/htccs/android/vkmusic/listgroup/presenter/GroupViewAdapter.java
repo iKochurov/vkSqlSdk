@@ -52,11 +52,11 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
 
     class CardGroupHolder extends RecyclerView.ViewHolder {
 
-        CardView cardView;
-        TextView nameGroup;
-        ImageView iconGroup;
-        String numberGroup;
-        GroupItemClickListener listener;
+        private CardView cardView;
+        private TextView nameGroup;
+        private ImageView iconGroup;
+        private String numberGroup;
+        private GroupItemClickListener listener;
 
         void setListener(GroupItemClickListener listener) {
             this.listener = listener;

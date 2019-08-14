@@ -30,7 +30,6 @@ public class GroupsViewImpl implements GroupsView {
         adapter = new GroupViewAdapter(this, view.getContext());
     }
 
-
     @Override
     public void onGroupItemClicked(String groupId) {
         presenter.showGroupInfo(groupId);

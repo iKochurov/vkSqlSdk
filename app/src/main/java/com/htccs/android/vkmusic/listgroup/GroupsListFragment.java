@@ -19,7 +19,6 @@ import com.htccs.android.vkmusic.listgroup.view.GroupsViewImpl;
 public class GroupsListFragment extends Fragment {
 
     public static final String TAG = GroupsListFragment.class.getSimpleName();
-
     private FragmentInteraction fragmentInteraction;
 
     public static GroupsListFragment newInstance() {
@@ -42,8 +41,6 @@ public class GroupsListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View listGroupView = inflater.inflate(R.layout.fragment_list_groups, container, false);
-        //ProgressBar progressBar = listGroupView.findViewById(R.id.progress_bar);
-        // progressBar.setVisibility(ProgressBar.VISIBLE);
         GroupsView groupsView = new GroupsViewImpl(listGroupView);
         GroupsPresenter groupsPresenter = new GroupsPresenterImpl(groupsView, fragmentInteraction);
         ((GroupsViewImpl) groupsView).setPresenter(groupsPresenter);

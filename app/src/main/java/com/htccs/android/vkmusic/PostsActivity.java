@@ -18,7 +18,6 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         displayGroupListFragment();
-
     }
 
     private void displayGroupListFragment() {
