@@ -9,7 +9,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Стенка групп твоих"
+        android:text="@string/text_start_activity"
         android:textSize="30sp"
         android:textColor="@color/vk_share_blue_color"
         app:layout_constraintBottom_toBottomOf="parent"
