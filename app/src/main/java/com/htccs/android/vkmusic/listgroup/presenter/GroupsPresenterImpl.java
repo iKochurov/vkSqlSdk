@@ -17,6 +17,7 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static com.htccs.android.vkmusic.listgroup.GroupsListFragment.TAG;
 
@@ -25,11 +26,11 @@ public class GroupsPresenterImpl implements GroupsPresenter {
     private GroupsView groupsView;
     private FragmentInteraction fragmentInteraction;
     private ArrayList<CardGroup> cardGroups = new ArrayList<>();
-    private Gson gson;
+
     private GsonBuilder builder = new GsonBuilder();
+    private Gson gson = builder.create();
 
     public GroupsPresenterImpl(GroupsView groupsView, FragmentInteraction fragmentInteraction) {
-        Log.d("A", "презентер");
         this.groupsView = groupsView;
         this.fragmentInteraction = fragmentInteraction;
     }
@@ -45,9 +46,6 @@ public class GroupsPresenterImpl implements GroupsPresenter {
     }
 
     private void receptionData() {
-
-        gson = builder.create();
-
         final VKRequest vkRequest = VKApi.groups().get(VKParameters.from(VKApiConst.FIELDS, "name,photo_50", VKApiConst.EXTENDED, 1));
         vkRequest.executeWithListener(new VKRequest.VKRequestListener() {
             @Override
@@ -56,9 +54,10 @@ public class GroupsPresenterImpl implements GroupsPresenter {
                 Log.d("response", response.json.toString());
                 ResponseListGroup list = gson.fromJson(response.json.toString(), ResponseListGroup.class);
                 Integer count = list.getResponse().getCount();
+                List<Items> itemsList = list.getResponse().getItems();
 
                 for (int i = 0; i < count; i++) {
-                    Items listGroup = list.getResponse().getItems().get(i);
+                    Items listGroup = itemsList.get(i);
 
                     String nameGroup = listGroup.getName();
                     String iconGroup = listGroup.getPhotoFirstSize();

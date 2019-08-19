@@ -58,10 +58,6 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
         private String numberGroup;
         private GroupItemClickListener listener;
 
-        void setListener(GroupItemClickListener listener) {
-            this.listener = listener;
-        }
-
         CardGroupHolder(@NonNull View itemView) {
             super(itemView);
             cardView = itemView.findViewById(R.id.group_list);
@@ -74,6 +70,10 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
                     listener.onGroupItemClicked(numberGroup);
                 }
             });
+        }
+
+        void setListener(GroupItemClickListener listener) {
+            this.listener = listener;
         }
 
         void populate(CardGroup cardGroup) {

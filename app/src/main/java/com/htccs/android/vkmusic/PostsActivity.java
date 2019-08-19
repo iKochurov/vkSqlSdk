@@ -21,11 +21,28 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
     }
 
     private void displayGroupListFragment() {
+        String tag = GroupsListFragment.TAG;
         Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
-        if (fragment == null) {
+        Fragment fragmentInstance = GroupsListFragment.newInstance();
+
+        fragmentTransaction(fragmentInstance, fragment, tag);
+    }
+
+    @Override
+    public void onGroupItemCliked(String groupId) {
+        Log.d("fragmentManager", "Открываю второй фрагмент");
+        String tag = WallGroupFragment.TAG;
+        Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
+        Fragment fragmentInstance = WallGroupFragment.newInstance(groupId);
+        
+        fragmentTransaction(fragmentInstance, fragment, tag);
+    }
+
+    private void fragmentTransaction(Fragment fragment, Fragment tagFragment, String tag) {
+        if (tagFragment == null) {
             fragmentManager
                     .beginTransaction()
-                    .replace(android.R.id.content, GroupsListFragment.newInstance(), GroupsListFragment.TAG)
+                    .replace(android.R.id.content, fragment, tag)
                     .addToBackStack(null)
                     .commit();
         } else {
@@ -40,31 +57,9 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
     public void onBackPressed() {
         if (fragmentManager.getBackStackEntryCount() == 1) {
             super.onBackPressed();
-            System.exit(0);
         } else {
             fragmentManager.popBackStack();
         }
     }
-
-    @Override
-    public void onGroupItemCliked(String groupId) {
-        Log.d("fragmentManager", "Открываю второй фрагмент");
-
-        Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
-        if (fragment == null) {
-            fragmentManager
-                    .beginTransaction()
-                    .replace(android.R.id.content, WallGroupFragment.newInstance(groupId), WallGroupFragment.TAG)
-                    .addToBackStack(null)
-                    .commit();
-        } else {
-            fragmentManager
-                    .beginTransaction()
-                    .replace(android.R.id.content, fragment)
-                    .commit();
-        }
-    }
-
-
 }
 

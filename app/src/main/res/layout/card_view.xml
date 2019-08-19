@@ -110,10 +110,4 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="4dp"
-        android:layout_alignParentBottom="true"
-        android:background="@color/vk_share_blue_color" />
-
 </androidx.cardview.widget.CardView>

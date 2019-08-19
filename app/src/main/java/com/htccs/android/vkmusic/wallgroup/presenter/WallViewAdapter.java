@@ -24,6 +24,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
     private List<CardWall> cardWalls;
 
     public WallViewAdapter(Context context) {
+
         glide = Glide.with(context);
     }
 
@@ -46,7 +47,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
     }
 
     class CardWallHolder extends RecyclerView.ViewHolder {
-        private CardView cardView;
+
         private TextView nameGroup;
         private ImageView iconGroup;
         private TextView textPost;
@@ -54,16 +55,14 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
         private TextView cardLike;
         private TextView cardRepost;
 
-        CardWallHolder(@NonNull View itemView) {
+        CardWallHolder(@NonNull final View itemView) {
             super(itemView);
-            cardView = itemView.findViewById(R.id.card_list);
             nameGroup = itemView.findViewById(R.id.name_group);
             textPost = itemView.findViewById(R.id.person_text_group);
             iconGroup = itemView.findViewById(R.id.icon_group);
             picturePost = itemView.findViewById(R.id.picture_post);
             cardLike = itemView.findViewById(R.id.count_like);
             cardRepost = itemView.findViewById(R.id.count_repost);
-
         }
 
         void populate(CardWall cardWall) {

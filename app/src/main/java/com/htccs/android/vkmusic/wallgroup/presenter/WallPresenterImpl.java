@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.htccs.android.vkmusic.listgroup.models.GroupInfo;
 import com.htccs.android.vkmusic.wallgroup.models.CardWall;
 import com.htccs.android.vkmusic.wallgroup.models.Item;
+import com.htccs.android.vkmusic.wallgroup.models.ResponseGroup;
 import com.htccs.android.vkmusic.wallgroup.models.WallInfo;
 import com.htccs.android.vkmusic.wallgroup.view.WallView;
 import com.vk.sdk.api.VKApiConst;
@@ -17,16 +18,25 @@ import com.vk.sdk.api.model.VKList;
 
 import org.json.JSONException;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class WallPresenterImpl implements WallPresenter {
 
     private WallView wallView;
     private ArrayList<CardWall> cardWalls = new ArrayList<>();
-    private Gson gson;
+
     private String numbergroup;
     private GsonBuilder builder = new GsonBuilder();
+    private Gson gson = builder.create();
+    private String nameGroup;
+    private String urlIcon;
+    private String countLike;
+    private String countRepost;
+    private String textWall;
 
     public WallPresenterImpl(WallView wallView, String numbergroup) {
         this.wallView = wallView;
@@ -39,7 +49,6 @@ public class WallPresenterImpl implements WallPresenter {
     }
 
     private void receptionData() {
-        gson = builder.create();
 
         final VKRequest request = new VKApiGroups().getById(VKParameters.from("group_ids", numbergroup));
         request.executeWithListener(new VKRequest.VKRequestListener() {
@@ -51,8 +60,10 @@ public class WallPresenterImpl implements WallPresenter {
                 VKList vkList = (VKList) response.parsedModel;
 
                 try {
+                    String ownerParametrs = "-" + vkList.get(0).fields.getInt("id");
+
                     VKRequest requestWall = new VKApiWall()
-                            .get(VKParameters.from(VKApiConst.OWNER_ID, "-" + vkList.get(0).fields.getInt("id"), VKApiConst.COUNT, 10));
+                            .get(VKParameters.from(VKApiConst.OWNER_ID, ownerParametrs, VKApiConst.COUNT, 10));
 
                     requestWall.executeWithListener(new VKRequest.VKRequestListener() {
 
@@ -62,20 +73,13 @@ public class WallPresenterImpl implements WallPresenter {
                             try {
                                 WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
                                 List<Item> itemList = wallInfo.getResponse().getItems();
+                                ResponseGroup responseGroup = groupInfo.getResponse().get(0);
 
                                 for (int i = 0; i < itemList.size(); i++) {
                                     Item itemPost = itemList.get(i);
-                                    String nameGroup = groupInfo.getResponse().get(0).getName();
-                                    String urlIcon = groupInfo.getResponse().get(0).getPhotoFirstSize();
-                                    String countLike = itemPost.getLikes().getCount().toString();
-                                    String countRepost = itemPost.getReposts().getCount().toString();
 
-                                    try {
-                                        String urlPicture = itemPost.getAttachments().get(0).getPhoto().getPhoto_size();
-                                        cardWalls.add(new CardWall(nameGroup, urlIcon, itemPost.getText(), urlPicture, countLike, countRepost));
-                                    } catch (NullPointerException e) {
-                                        cardWalls.add(new CardWall(nameGroup, urlIcon, itemPost.getText(), countLike, countRepost));
-                                    }
+                                    setInfo(responseGroup, itemPost);
+                                    addCard(itemPost);
                                 }
                                 wallView.populateWall(cardWalls);
                             } catch (Exception e) {
@@ -88,5 +92,30 @@ public class WallPresenterImpl implements WallPresenter {
                 }
             }
         });
+    }
+
+    private void addCard(Item item) {
+        try {
+            String urlPicture = item.getAttachments().get(0).getPhoto().getPhoto_size();
+            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, urlPicture, countLike, countRepost));
+        } catch (NullPointerException e) {
+            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, countLike, countRepost));
+        }
+    }
+
+    private void setInfo(ResponseGroup responseGroup, Item item) {
+        nameGroup = responseGroup.getName();
+        urlIcon = responseGroup.getPhotoFirstSize();
+        countLike = item.getLikes().getCount().toString();
+        countRepost = item.getReposts().getCount().toString();
+        textWall = item.getText();
+    }
+
+    private String getDate(long time) {
+        Date date = new Date(time * 1000L);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy ");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT-4"));
+
+        return dateFormat.format(date);
     }
 }
