@@ -16,15 +16,16 @@ import com.bumptech.glide.RequestManager;
 import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.wallgroup.models.CardWall;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWallHolder> {
 
     private RequestManager glide;
-    private List<CardWall> cardWalls;
+    private static final String TEST = "ЗАГРУЗКА";
+    private List<CardWall> cardWalls = Arrays.asList(new CardWall(TEST, TEST, TEST, TEST, TEST, TEST));
 
     public WallViewAdapter(Context context) {
-
         glide = Glide.with(context);
     }
 
@@ -54,6 +55,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
         private ImageView picturePost;
         private TextView cardLike;
         private TextView cardRepost;
+        private TextView cardDate;
 
         CardWallHolder(@NonNull final View itemView) {
             super(itemView);
@@ -63,6 +65,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             picturePost = itemView.findViewById(R.id.picture_post);
             cardLike = itemView.findViewById(R.id.count_like);
             cardRepost = itemView.findViewById(R.id.count_repost);
+            cardDate = itemView.findViewById(R.id.date_post);
         }
 
         void populate(CardWall cardWall) {
@@ -72,6 +75,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             populatePicture(cardWall);
             cardLike.setText(cardWall.cardLike);
             cardRepost.setText(cardWall.cardRepost);
+            cardDate.setText(cardWall.cardDate);
         }
 
         private void populateIcon(CardWall cardWall) {

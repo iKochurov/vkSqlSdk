@@ -37,6 +37,7 @@ public class WallPresenterImpl implements WallPresenter {
     private String countLike;
     private String countRepost;
     private String textWall;
+    private String dateWall;
 
     public WallPresenterImpl(WallView wallView, String numbergroup) {
         this.wallView = wallView;
@@ -60,10 +61,10 @@ public class WallPresenterImpl implements WallPresenter {
                 VKList vkList = (VKList) response.parsedModel;
 
                 try {
-                    String ownerParametrs = "-" + vkList.get(0).fields.getInt("id");
+                    String ownerParameters = "-" + vkList.get(0).fields.getInt("id");
 
                     VKRequest requestWall = new VKApiWall()
-                            .get(VKParameters.from(VKApiConst.OWNER_ID, ownerParametrs, VKApiConst.COUNT, 10));
+                            .get(VKParameters.from(VKApiConst.OWNER_ID, ownerParameters, VKApiConst.COUNT, 10));
 
                     requestWall.executeWithListener(new VKRequest.VKRequestListener() {
 
@@ -97,9 +98,9 @@ public class WallPresenterImpl implements WallPresenter {
     private void addCard(Item item) {
         try {
             String urlPicture = item.getAttachments().get(0).getPhoto().getPhoto_size();
-            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, urlPicture, countLike, countRepost));
+            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, urlPicture, countLike, countRepost, dateWall));
         } catch (NullPointerException e) {
-            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, countLike, countRepost));
+            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, countLike, countRepost, dateWall));
         }
     }
 
@@ -109,6 +110,7 @@ public class WallPresenterImpl implements WallPresenter {
         countLike = item.getLikes().getCount().toString();
         countRepost = item.getReposts().getCount().toString();
         textWall = item.getText();
+        dateWall = getDate(item.getDate());
     }
 
     private String getDate(long time) {

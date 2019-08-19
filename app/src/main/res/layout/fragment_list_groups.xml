@@ -3,5 +3,4 @@
     android:id="@+id/recycler_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vk_share_blue_color"
-    android:padding="10dp"></androidx.recyclerview.widget.RecyclerView>
+    android:background="@color/vk_grey_color"></androidx.recyclerview.widget.RecyclerView>

@@ -17,11 +17,13 @@ import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.listgroup.GroupItemClickListener;
 import com.htccs.android.vkmusic.listgroup.models.CardGroup;
 
+import java.util.Arrays;
 import java.util.List;
 
 public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.CardGroupHolder> {
 
-    private List<CardGroup> cardGroups;
+    private static final String TEST = "ЗАГРУЗКА";
+    private List<CardGroup> cardGroups = Arrays.asList(new CardGroup(TEST, TEST, TEST));
     private GroupItemClickListener listener;
     private RequestManager glide;
 

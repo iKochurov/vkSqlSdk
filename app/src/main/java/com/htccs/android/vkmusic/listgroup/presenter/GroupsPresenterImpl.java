@@ -30,6 +30,10 @@ public class GroupsPresenterImpl implements GroupsPresenter {
     private GsonBuilder builder = new GsonBuilder();
     private Gson gson = builder.create();
 
+    private String nameGroup;
+    private String iconGroup;
+    private String numberGroup;
+
     public GroupsPresenterImpl(GroupsView groupsView, FragmentInteraction fragmentInteraction) {
         this.groupsView = groupsView;
         this.fragmentInteraction = fragmentInteraction;
@@ -53,15 +57,14 @@ public class GroupsPresenterImpl implements GroupsPresenter {
                 super.onComplete(response);
                 Log.d("response", response.json.toString());
                 ResponseListGroup list = gson.fromJson(response.json.toString(), ResponseListGroup.class);
+                Log.d("Group", response.json.toString());
                 Integer count = list.getResponse().getCount();
                 List<Items> itemsList = list.getResponse().getItems();
 
                 for (int i = 0; i < count; i++) {
                     Items listGroup = itemsList.get(i);
 
-                    String nameGroup = listGroup.getName();
-                    String iconGroup = listGroup.getPhotoFirstSize();
-                    String numberGroup = listGroup.getId().toString();
+                    setInfo(listGroup);
                     cardGroups.add(new CardGroup(nameGroup, iconGroup, numberGroup));
                 }
                 groupsView.populateGroupList(cardGroups);
@@ -73,5 +76,12 @@ public class GroupsPresenterImpl implements GroupsPresenter {
                 Log.e(TAG, "onError: ", error.httpError);
             }
         });
+    }
+
+    private void setInfo(Items items) {
+
+        nameGroup = items.getName();
+        iconGroup = items.getPhotoFirstSize();
+        numberGroup = items.getId().toString();
     }
 }
