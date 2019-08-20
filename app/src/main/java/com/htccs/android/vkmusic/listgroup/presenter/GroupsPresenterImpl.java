@@ -45,8 +45,8 @@ public class GroupsPresenterImpl implements GroupsPresenter {
     }
 
     @Override
-    public void showGroupInfo(String groupId) {
-        fragmentInteraction.onGroupItemCliked(groupId);
+    public void showGroupInfo(String groupId, String title) {
+        fragmentInteraction.onGroupItemCliked(groupId, title);
     }
 
     private void receptionData() {
@@ -79,7 +79,6 @@ public class GroupsPresenterImpl implements GroupsPresenter {
     }
 
     private void setInfo(Items items) {
-
         nameGroup = items.getName();
         iconGroup = items.getPhotoFirstSize();
         numberGroup = items.getId().toString();

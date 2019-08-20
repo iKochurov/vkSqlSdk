@@ -69,7 +69,7 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
             cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onGroupItemClicked(numberGroup);
+                    listener.onGroupItemClicked(numberGroup, nameGroup.getText().toString());
                 }
             });
         }

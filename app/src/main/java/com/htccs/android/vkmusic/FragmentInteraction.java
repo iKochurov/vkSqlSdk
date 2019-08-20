@@ -2,5 +2,5 @@ package com.htccs.android.vkmusic;
 
 public interface FragmentInteraction {
 
-    void onGroupItemCliked(String groupId);
+    void onGroupItemCliked(String groupId, String title);
 }

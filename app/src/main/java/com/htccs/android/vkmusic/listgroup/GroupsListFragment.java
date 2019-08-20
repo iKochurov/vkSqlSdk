@@ -45,7 +45,6 @@ public class GroupsListFragment extends Fragment {
         GroupsPresenter groupsPresenter = new GroupsPresenterImpl(groupsView, fragmentInteraction);
         ((GroupsViewImpl) groupsView).setPresenter(groupsPresenter);
         groupsPresenter.loadGroups();
-
         return listGroupView;
     }
 }

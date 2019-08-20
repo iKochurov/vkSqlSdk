@@ -4,5 +4,5 @@ public interface GroupsPresenter {
 
     void loadGroups();
 
-    void showGroupInfo(String groupId);
+    void showGroupInfo(String groupId, String title);
 }

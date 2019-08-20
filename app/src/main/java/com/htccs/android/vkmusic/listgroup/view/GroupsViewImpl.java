@@ -26,8 +26,8 @@ public class GroupsViewImpl implements GroupsView {
     }
 
     @Override
-    public void onGroupItemClicked(String groupId) {
-        presenter.showGroupInfo(groupId);
+    public void onGroupItemClicked(String groupId, String title) {
+        presenter.showGroupInfo(groupId, title);
     }
 
     @Override

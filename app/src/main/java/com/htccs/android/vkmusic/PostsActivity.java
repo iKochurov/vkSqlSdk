@@ -12,6 +12,7 @@ import com.htccs.android.vkmusic.wallgroup.WallGroupFragment;
 
 public class PostsActivity extends AppCompatActivity implements FragmentInteraction {
 
+    private final static String GROUPS = "Сообщества";
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
@@ -24,28 +25,29 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
         String tag = GroupsListFragment.TAG;
         Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
         Fragment fragmentInstance = GroupsListFragment.newInstance();
-
-        fragmentTransaction(fragmentInstance, fragment, tag);
+        fragmentTransaction(fragmentInstance, fragment, tag, GROUPS);
     }
 
     @Override
-    public void onGroupItemCliked(String groupId) {
+    public void onGroupItemCliked(String groupId, String title) {
         Log.d("fragmentManager", "Открываю второй фрагмент");
         String tag = WallGroupFragment.TAG;
         Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
         Fragment fragmentInstance = WallGroupFragment.newInstance(groupId);
-        
-        fragmentTransaction(fragmentInstance, fragment, tag);
+
+        fragmentTransaction(fragmentInstance, fragment, tag, title);
     }
 
-    private void fragmentTransaction(Fragment fragment, Fragment tagFragment, String tag) {
+    private void fragmentTransaction(Fragment fragment, Fragment tagFragment, String tag, String title) {
         if (tagFragment == null) {
+            setTitle(title);
             fragmentManager
                     .beginTransaction()
                     .replace(android.R.id.content, fragment, tag)
                     .addToBackStack(null)
                     .commit();
         } else {
+            setTitle(title);
             fragmentManager
                     .beginTransaction()
                     .replace(android.R.id.content, fragment)
@@ -58,6 +60,7 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
         if (fragmentManager.getBackStackEntryCount() == 1) {
             super.onBackPressed();
         } else {
+            setTitle(GROUPS);
             fragmentManager.popBackStack();
         }
     }
