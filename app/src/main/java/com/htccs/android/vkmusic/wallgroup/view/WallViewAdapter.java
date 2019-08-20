@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic.wallgroup.presenter;
+package com.htccs.android.vkmusic.wallgroup.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -16,16 +16,17 @@ import com.bumptech.glide.RequestManager;
 import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.wallgroup.models.CardWall;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWallHolder> {
 
     private RequestManager glide;
-    private static final String TEST = "ЗАГРУЗКА";
-    private List<CardWall> cardWalls = Arrays.asList(new CardWall(TEST, TEST, TEST, TEST, TEST, TEST));
+
+    private List<CardWall> cardWalls;
 
     public WallViewAdapter(Context context) {
+        cardWalls = new ArrayList<>();
         glide = Glide.with(context);
     }
 
@@ -45,6 +46,11 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
     @Override
     public int getItemCount() {
         return cardWalls.size();
+    }
+
+    public void setCardWalls(List cardWalls) {
+        this.cardWalls.clear();
+        this.cardWalls.addAll(cardWalls);
     }
 
     class CardWallHolder extends RecyclerView.ViewHolder {
@@ -91,9 +97,5 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
                     .load(cardWall.cardUrlPicture)
                     .into(picturePost);
         }
-    }
-
-    public void setCardWalls(List cardWalls) {
-        this.cardWalls = cardWalls;
     }
 }

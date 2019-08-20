@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic.listgroup.presenter;
+package com.htccs.android.vkmusic.listgroup.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,19 +17,19 @@ import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.listgroup.GroupItemClickListener;
 import com.htccs.android.vkmusic.listgroup.models.CardGroup;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.CardGroupHolder> {
 
-    private static final String TEST = "ЗАГРУЗКА";
-    private List<CardGroup> cardGroups = Arrays.asList(new CardGroup(TEST, TEST, TEST));
+    private List<CardGroup> cardGroups;
     private GroupItemClickListener listener;
     private RequestManager glide;
 
     public GroupViewAdapter(GroupItemClickListener listener, Context context) {
         glide = Glide.with(context);
         this.listener = listener;
+        cardGroups = new ArrayList<>();
     }
 
     @NonNull
@@ -50,6 +50,11 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
     @Override
     public int getItemCount() {
         return cardGroups.size();
+    }
+
+    public void setCardWalls(List<CardGroup> cardGroups) {
+        this.cardGroups.clear();
+        this.cardGroups.addAll(cardGroups);
     }
 
     class CardGroupHolder extends RecyclerView.ViewHolder {
@@ -89,10 +94,6 @@ public class GroupViewAdapter extends RecyclerView.Adapter<GroupViewAdapter.Card
                     .load(cardGroup.urlIconGroup)
                     .into(iconGroup);
         }
-    }
-
-    public void setCardWalls(List cardGroups) {
-        this.cardGroups = cardGroups;
     }
 }
 

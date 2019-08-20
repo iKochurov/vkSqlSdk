@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.htccs.android.vkmusic.R;
-import com.htccs.android.vkmusic.listgroup.presenter.GroupViewAdapter;
 import com.htccs.android.vkmusic.listgroup.presenter.GroupsPresenter;
 
 import java.util.ArrayList;

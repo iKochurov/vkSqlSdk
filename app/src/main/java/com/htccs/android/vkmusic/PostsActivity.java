@@ -1,7 +1,6 @@
 package com.htccs.android.vkmusic;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -22,42 +21,34 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
     }
 
     private void displayGroupListFragment() {
-        String tag = GroupsListFragment.TAG;
+        setTitle(GROUPS);
         Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
-        Fragment fragmentInstance = GroupsListFragment.newInstance();
-        fragmentTransaction(fragmentInstance, fragment, tag, GROUPS);
+        if (fragment == null) {
+            fragment = GroupsListFragment.newInstance();
+        }
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, GroupsListFragment.TAG)
+                .commit();
     }
 
     @Override
     public void onGroupItemCliked(String groupId, String title) {
-        Log.d("fragmentManager", "Открываю второй фрагмент");
-        String tag = WallGroupFragment.TAG;
+        setTitle(title);
         Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
-        Fragment fragmentInstance = WallGroupFragment.newInstance(groupId);
-
-        fragmentTransaction(fragmentInstance, fragment, tag, title);
-    }
-
-    private void fragmentTransaction(Fragment fragment, Fragment tagFragment, String tag, String title) {
-        if (tagFragment == null) {
-            setTitle(title);
-            fragmentManager
-                    .beginTransaction()
-                    .replace(android.R.id.content, fragment, tag)
-                    .addToBackStack(null)
-                    .commit();
-        } else {
-            setTitle(title);
-            fragmentManager
-                    .beginTransaction()
-                    .replace(android.R.id.content, fragment)
-                    .commit();
+        if (fragment == null) {
+            fragment = WallGroupFragment.newInstance(groupId);
         }
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, WallGroupFragment.TAG)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void onBackPressed() {
-        if (fragmentManager.getBackStackEntryCount() == 1) {
+        if (fragmentManager.getBackStackEntryCount() == 0) {
             super.onBackPressed();
         } else {
             setTitle(GROUPS);

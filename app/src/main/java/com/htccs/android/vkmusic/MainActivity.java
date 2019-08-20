@@ -20,6 +20,7 @@ public class MainActivity extends Activity {
         if (VKSdk.isLoggedIn()) {
             Intent intent = new Intent(MainActivity.this, PostsActivity.class);
             startActivity(intent);
+            finish();
         } else {
             VKSdk.login(this);
         }
@@ -36,6 +37,7 @@ public class MainActivity extends Activity {
 
                 Intent intent = new Intent(MainActivity.this, PostsActivity.class);
                 startActivity(intent);
+                finish();
             }
 
             @Override

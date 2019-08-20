@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.VkItemDecoration;
-import com.htccs.android.vkmusic.wallgroup.presenter.WallViewAdapter;
 
 import java.util.ArrayList;
 
