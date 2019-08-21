@@ -55,9 +55,7 @@ public class GroupsPresenterImpl implements GroupsPresenter {
             @Override
             public void onComplete(final VKResponse response) {
                 super.onComplete(response);
-                Log.d("response", response.json.toString());
                 ResponseListGroup list = gson.fromJson(response.json.toString(), ResponseListGroup.class);
-                Log.d("Group", response.json.toString());
                 Integer count = list.getResponse().getCount();
                 List<Items> itemsList = list.getResponse().getItems();
 

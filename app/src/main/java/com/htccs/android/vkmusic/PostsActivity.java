@@ -1,26 +1,51 @@
 package com.htccs.android.vkmusic;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.htccs.android.vkmusic.listgroup.GroupsListFragment;
+import com.htccs.android.vkmusic.loginvk.LoginFragment;
 import com.htccs.android.vkmusic.wallgroup.WallGroupFragment;
+import com.vk.sdk.VKAccessToken;
+import com.vk.sdk.VKCallback;
+import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKError;
 
 public class PostsActivity extends AppCompatActivity implements FragmentInteraction {
 
     private final static String GROUPS = "Сообщества";
+    private final static String LOGIN = "Вход";
     private FragmentManager fragmentManager = getSupportFragmentManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        displayGroupListFragment();
+        setContentView(R.layout.activity_main);
+        if (VKSdk.isLoggedIn()) {
+            displayGroupListFragment();
+        } else {
+            VKSdk.login(this);
+        }
     }
 
-    private void displayGroupListFragment() {
+    private void displayLoginFragment() {
+        setTitle(LOGIN);
+        Fragment fragment = fragmentManager.findFragmentByTag(LoginFragment.TAG);
+        if (fragment == null) {
+            fragment = LoginFragment.newInstance();
+        }
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, LoginFragment.TAG)
+                .commit();
+    }
+
+    public void displayGroupListFragment() {
         setTitle(GROUPS);
         Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
         if (fragment == null) {
@@ -54,6 +79,24 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
             setTitle(GROUPS);
             fragmentManager.popBackStack();
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
+
+            public void onResult(VKAccessToken res) {
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Успешно!", Toast.LENGTH_SHORT);
+                toast.show();
+                displayGroupListFragment();
+            }
+
+            public void onError(VKError error) {
+                displayLoginFragment();
+            }
+        })) ;
     }
 }
 
