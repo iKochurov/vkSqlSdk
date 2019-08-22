@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class VkItemDecoration extends RecyclerView.ItemDecoration {
 
-    private final static Integer INDENT = 8;
+    private final static int INDENT = 8;
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {

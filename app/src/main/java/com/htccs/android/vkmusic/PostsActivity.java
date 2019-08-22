@@ -82,7 +82,7 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (!VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
+        VKSdk.onActivityResult(requestCode, resultCode, data, new VKCallback<VKAccessToken>() {
 
             public void onResult(VKAccessToken res) {
                 Toast toast = Toast.makeText(getApplicationContext(),
@@ -94,7 +94,7 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
             public void onError(VKError error) {
                 displayLoginFragment();
             }
-        })) ;
+        });
     }
 }
 

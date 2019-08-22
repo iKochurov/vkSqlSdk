@@ -32,7 +32,6 @@ public class LoginFragment extends Fragment {
         loginView.showResult(getContext());
         LoginPresenter loginPresenter = new LoginPresenterImpl(loginView, vkLoginView.getContext());
         loginView.setPresenter(loginPresenter);
-        loginPresenter.showLogin();
 
         return vkLoginView;
     }

@@ -71,21 +71,18 @@ public class WallPresenterImpl implements WallPresenter {
                         @Override
                         public void onComplete(VKResponse response) {
                             super.onComplete(response);
-//                            try {
-                                WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
-                                List<Item> itemList = wallInfo.getResponse().getItems();
-                                ResponseGroup responseGroup = groupInfo.getResponse().get(0);
 
-                                for (int i = 0; i < itemList.size(); i++) {
-                                    Item itemPost = itemList.get(i);
+                            WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
+                            List<Item> itemList = wallInfo.getResponse().getItems();
+                            ResponseGroup responseGroup = groupInfo.getResponse().get(0);
 
-                                    setInfo(responseGroup, itemPost);
-                                    addCard(itemPost);
-                                }
-                                wallView.populateWall(cardWalls);
-//                            } catch (Exception e) {
-//                                e.printStackTrace();
-//                            }
+                            for (int i = 0; i < itemList.size(); i++) {
+                                Item itemPost = itemList.get(i);
+
+                                setInfo(responseGroup, itemPost);
+                                addCard(itemPost);
+                            }
+                            wallView.populateWall(cardWalls);
                         }
                     });
                 } catch (JSONException e) {

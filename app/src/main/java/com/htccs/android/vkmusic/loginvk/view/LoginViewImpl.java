@@ -1,7 +1,6 @@
 package com.htccs.android.vkmusic.loginvk.view;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,26 +15,20 @@ public class LoginViewImpl implements LoginView {
     private Button button;
 
     public LoginViewImpl(View view) {
-
         button = view.findViewById(R.id.button_login);
-    }
-
-    public void checkLogin() {
-
-        loginPresenter.setOnClickButton(button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                loginPresenter.checkLogin();
+            }
+        });
     }
 
     public void showResult(Context context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Вход!")
+        builder.setTitle("Вход")
                 .setMessage("Ошибка!")
-                .setCancelable(false)
-                .setNegativeButton("ОК",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
+                .setCancelable(true);
         AlertDialog alert = builder.create();
         alert.show();
     }

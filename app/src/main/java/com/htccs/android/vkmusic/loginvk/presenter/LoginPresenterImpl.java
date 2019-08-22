@@ -2,8 +2,6 @@ package com.htccs.android.vkmusic.loginvk.presenter;
 
 import android.app.Activity;
 import android.content.Context;
-import android.view.View;
-import android.widget.Button;
 
 import com.htccs.android.vkmusic.loginvk.view.LoginView;
 import com.vk.sdk.VKSdk;
@@ -19,20 +17,7 @@ public class LoginPresenterImpl implements LoginPresenter {
     }
 
     @Override
-    public void showLogin() {
-        loginView.checkLogin();
+    public void checkLogin() {
+        VKSdk.login((Activity) context);
     }
-
-    @Override
-    public void setOnClickButton(Button button) {
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                VKSdk.login((Activity) context);
-
-            }
-        });
-    }
-
 }
