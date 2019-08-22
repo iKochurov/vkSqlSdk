@@ -35,10 +35,8 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
 
     private void displayLoginFragment() {
         setTitle(LOGIN);
-        Fragment fragment = fragmentManager.findFragmentByTag(LoginFragment.TAG);
-        if (fragment == null) {
-            fragment = LoginFragment.newInstance();
-        }
+        Fragment fragment = LoginFragment.newInstance();
+
         fragmentManager
                 .beginTransaction()
                 .replace(android.R.id.content, fragment, LoginFragment.TAG)
