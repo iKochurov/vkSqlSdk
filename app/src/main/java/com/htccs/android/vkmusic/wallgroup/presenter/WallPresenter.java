@@ -4,4 +4,5 @@ public interface WallPresenter {
 
     void loadWall();
 
+    void showPicture(String urlPicture);
 }

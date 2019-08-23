@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.htccs.android.vkmusic.R;
+import com.htccs.android.vkmusic.wallgroup.WallPictureClickListener;
 import com.htccs.android.vkmusic.wallgroup.models.CardWall;
 
 import java.util.ArrayList;
@@ -22,12 +23,14 @@ import java.util.List;
 public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWallHolder> {
 
     private RequestManager glide;
-
     private List<CardWall> cardWalls;
+    private WallPictureClickListener listener;
 
-    public WallViewAdapter(Context context) {
+
+    public WallViewAdapter(WallPictureClickListener listener, Context context) {
         cardWalls = new ArrayList<>();
         glide = Glide.with(context);
+        this.listener = listener;
     }
 
     @NonNull
@@ -62,6 +65,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
         private TextView cardLike;
         private TextView cardRepost;
         private TextView cardDate;
+        private String urlPicture;
 
         CardWallHolder(@NonNull final View itemView) {
             super(itemView);
@@ -72,6 +76,13 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             cardLike = itemView.findViewById(R.id.count_like);
             cardRepost = itemView.findViewById(R.id.count_repost);
             cardDate = itemView.findViewById(R.id.date_post);
+
+            picturePost.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onPictureClick(urlPicture);
+                }
+            });
         }
 
         void populate(CardWall cardWall) {
@@ -82,6 +93,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             cardLike.setText(cardWall.cardLike);
             cardRepost.setText(cardWall.cardRepost);
             cardDate.setText(cardWall.cardDate);
+            urlPicture = cardWall.cardMaxPicture;
         }
 
         private void populateIcon(CardWall cardWall) {

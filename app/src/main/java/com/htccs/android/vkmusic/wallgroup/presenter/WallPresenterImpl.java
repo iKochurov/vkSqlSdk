@@ -2,9 +2,11 @@ package com.htccs.android.vkmusic.wallgroup.presenter;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.htccs.android.vkmusic.FragmentInteractionPicture;
 import com.htccs.android.vkmusic.listgroup.models.GroupInfo;
 import com.htccs.android.vkmusic.wallgroup.models.CardWall;
 import com.htccs.android.vkmusic.wallgroup.models.Item;
+import com.htccs.android.vkmusic.wallgroup.models.Photo;
 import com.htccs.android.vkmusic.wallgroup.models.ResponseGroup;
 import com.htccs.android.vkmusic.wallgroup.models.WallInfo;
 import com.htccs.android.vkmusic.wallgroup.view.WallView;
@@ -38,15 +40,22 @@ public class WallPresenterImpl implements WallPresenter {
     private String countRepost;
     private String textWall;
     private String dateWall;
+    private FragmentInteractionPicture interactionPicture;
 
-    public WallPresenterImpl(WallView wallView, String numbergroup) {
+    public WallPresenterImpl(WallView wallView, String numbergroup, FragmentInteractionPicture fragmentInteractionPicture) {
         this.wallView = wallView;
         this.numbergroup = numbergroup;
+        this.interactionPicture = fragmentInteractionPicture;
     }
 
     @Override
     public void loadWall() {
         receptionData();
+    }
+
+    @Override
+    public void showPicture(String urlPicture) {
+        interactionPicture.onClickPicture(urlPicture);
     }
 
     private void receptionData() {
@@ -73,6 +82,7 @@ public class WallPresenterImpl implements WallPresenter {
                             super.onComplete(response);
 
                             WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
+                            System.out.println(response.json.toString());
                             List<Item> itemList = wallInfo.getResponse().getItems();
                             ResponseGroup responseGroup = groupInfo.getResponse().get(0);
 
@@ -94,10 +104,21 @@ public class WallPresenterImpl implements WallPresenter {
 
     private void addCard(Item item) {
         try {
-            String urlPicture = item.getAttachments().get(0).getPhoto().getPhoto_size();
-            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, urlPicture, countLike, countRepost, dateWall));
+            String urlPicture = item.getAttachments().get(0).getPhoto().getPhotoOneSize();
+            String urlMaxPicture = findMaxSizePhoto(item.getAttachments().get(0).getPhoto());
+            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, urlPicture, countLike, countRepost, dateWall, urlMaxPicture));
         } catch (NullPointerException e) {
             cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, countLike, countRepost, dateWall));
+        }
+    }
+
+    private String findMaxSizePhoto(Photo photo) {
+        if (photo.getPhotoMaxSize() != null) {
+            return photo.getPhotoMaxSize();
+        } else if (photo.getPhotoTwoSize() != null) {
+            return photo.getPhotoTwoSize();
+        } else {
+            return photo.getPhotoOneSize();
         }
     }
 

@@ -19,7 +19,13 @@ public class Photo {
     private Integer userId;
     @SerializedName("photo_604")
     @Expose
-    private String photo_size;
+    private String photoOneSize;
+    @SerializedName("photo_807")
+    @Expose
+    private String photoTwoSize;
+    @SerializedName("photo_1280")
+    @Expose
+    private String photoMaxSize;
     @SerializedName("text")
     @Expose
     private String text;
@@ -30,12 +36,28 @@ public class Photo {
     @Expose
     private String accessKey;
 
-    public String getPhoto_size() {
-        return photo_size;
+    public String getPhotoMaxSize() {
+        return photoMaxSize;
     }
 
-    public void setPhoto_size(String photo_size) {
-        this.photo_size = photo_size;
+    public void setPhotoMaxSize(String photoMaxSize) {
+        this.photoMaxSize = photoMaxSize;
+    }
+
+    public String getPhotoTwoSize() {
+        return photoTwoSize;
+    }
+
+    public void setPhotoTwoSize(String photoTwoSize) {
+        this.photoTwoSize = photoTwoSize;
+    }
+
+    public String getPhotoOneSize() {
+        return photoOneSize;
+    }
+
+    public void setPhotoOneSize(String photoOneSize) {
+        this.photoOneSize = photoOneSize;
     }
 
     public Integer getId() {

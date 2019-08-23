@@ -10,13 +10,14 @@ import androidx.fragment.app.FragmentManager;
 
 import com.htccs.android.vkmusic.listgroup.GroupsListFragment;
 import com.htccs.android.vkmusic.loginvk.LoginFragment;
+import com.htccs.android.vkmusic.picturewall.PictureFragment;
 import com.htccs.android.vkmusic.wallgroup.WallGroupFragment;
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
 
-public class PostsActivity extends AppCompatActivity implements FragmentInteraction {
+public class PostsActivity extends AppCompatActivity implements FragmentInteraction, FragmentInteractionPicture {
 
     private final static String GROUPS = "Сообщества";
     private final static String LOGIN = "Вход";
@@ -55,6 +56,7 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
                 .commit();
     }
 
+
     @Override
     public void onGroupItemCliked(String groupId, String title) {
         setTitle(title);
@@ -77,6 +79,19 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
             setTitle(GROUPS);
             fragmentManager.popBackStack();
         }
+    }
+
+    @Override
+    public void onClickPicture(String urlPicture) {
+        Fragment fragment = fragmentManager.findFragmentByTag(PictureFragment.TAG);
+        if (fragment == null) {
+            fragment = PictureFragment.newInstance(urlPicture);
+        }
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, PictureFragment.TAG)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
