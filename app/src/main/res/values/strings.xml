@@ -1,6 +1,5 @@
 <resources>
-    <string name="app_name">VkMusic</string>
-    <string name="text_start_activity">Стенка групп твоих</string>
+    <string name="app_name">VkWallGroups</string>
     <string name="login">Вход</string>
     <string name="save">Save</string>
     <integer name="com_vk_sdk_AppId">7079929</integer>

@@ -77,7 +77,6 @@ public class PictureFragment extends Fragment {
                 } else {
                     picture.showAlertDialog(getContext());
                 }
-                return;
         }
     }
 }
