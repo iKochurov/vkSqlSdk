@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic.wallgroup.view;
+package com.htccs.android.vkmusic.database.view;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,34 +14,31 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.htccs.android.vkmusic.R;
-import com.htccs.android.vkmusic.wallgroup.WallPictureClickListener;
 import com.htccs.android.vkmusic.wallgroup.models.CardWall;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWallHolder> {
+public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.DataBaseHolder> {
 
     private RequestManager glide;
     private List<CardWall> cardWalls;
-    private WallPictureClickListener listener;
 
-    public WallViewAdapter(WallPictureClickListener listener, Context context) {
+    public DataBaseAdapter(Context context) {
         cardWalls = new ArrayList<>();
         glide = Glide.with(context);
-        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public CardWallHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public DataBaseHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cardWall = (CardView) LayoutInflater.from(parent.getContext()).
                 inflate(R.layout.card_view, parent, false);
-        return new CardWallHolder(cardWall);
+        return new DataBaseHolder(cardWall);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CardWallHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DataBaseHolder holder, int position) {
         holder.populate(cardWalls.get(position));
     }
 
@@ -55,7 +52,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
         this.cardWalls.addAll(cardWalls);
     }
 
-    class CardWallHolder extends RecyclerView.ViewHolder {
+    class DataBaseHolder extends RecyclerView.ViewHolder {
 
         private TextView nameGroup;
         private ImageView iconGroup;
@@ -66,7 +63,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
         private TextView cardDate;
         private String urlPicture;
 
-        CardWallHolder(@NonNull final View itemView) {
+        DataBaseHolder(@NonNull final View itemView) {
             super(itemView);
             nameGroup = itemView.findViewById(R.id.name_group);
             textPost = itemView.findViewById(R.id.person_text_group);
@@ -76,12 +73,6 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             cardRepost = itemView.findViewById(R.id.count_repost);
             cardDate = itemView.findViewById(R.id.date_post);
 
-            picturePost.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onPictureClick(urlPicture);
-                }
-            });
         }
 
         void populate(CardWall cardWall) {

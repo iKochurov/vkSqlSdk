@@ -2,5 +2,7 @@ package com.htccs.android.vkmusic;
 
 public interface FragmentInteraction {
 
-    void onGroupItemCliked(String groupId, String title);
+    void onGroupItemClicked(String groupId, String title);
+
+    void onFabClick();
 }

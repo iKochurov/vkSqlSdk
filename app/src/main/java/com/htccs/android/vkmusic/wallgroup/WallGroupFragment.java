@@ -47,7 +47,7 @@ public class WallGroupFragment extends Fragment {
 
         String idGroup = getArguments().getString(GROUP_ID_EXTRA);
         WallView groupsView = new WallViewImpl(listGroupView);
-        WallPresenter wallPresenter = new WallPresenterImpl(groupsView, idGroup, fragmentInteractionPicture);
+        WallPresenter wallPresenter = new WallPresenterImpl(groupsView, idGroup, fragmentInteractionPicture, getContext());
         groupsView.setPresenter(wallPresenter);
         wallPresenter.loadWall();
 

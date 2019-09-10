@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.htccs.android.vkmusic.database.DataBaseFragment;
 import com.htccs.android.vkmusic.listgroup.GroupsListFragment;
 import com.htccs.android.vkmusic.loginvk.LoginFragment;
 import com.htccs.android.vkmusic.picturewall.PictureFragment;
@@ -22,6 +23,7 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
     private final static String GROUPS = "Сообщества";
     private final static String LOGIN = "Вход";
     private FragmentManager fragmentManager = getSupportFragmentManager();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
 
 
     @Override
-    public void onGroupItemCliked(String groupId, String title) {
+    public void onGroupItemClicked(String groupId, String title) {
         setTitle(title);
         Fragment fragment = fragmentManager.findFragmentByTag(WallGroupFragment.TAG);
         if (fragment == null) {
@@ -67,6 +69,19 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
         fragmentManager
                 .beginTransaction()
                 .replace(android.R.id.content, fragment, WallGroupFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onFabClick() {
+        Fragment fragment = fragmentManager.findFragmentByTag(DataBaseFragment.TAG);
+        if (fragment == null) {
+            fragment = DataBaseFragment.newInstance();
+        }
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, DataBaseFragment.TAG)
                 .addToBackStack(null)
                 .commit();
     }

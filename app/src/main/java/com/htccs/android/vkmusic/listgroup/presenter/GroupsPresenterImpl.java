@@ -1,10 +1,13 @@
 package com.htccs.android.vkmusic.listgroup.presenter;
 
 import android.util.Log;
+import android.view.View;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.htccs.android.vkmusic.FragmentInteraction;
+import com.htccs.android.vkmusic.R;
 import com.htccs.android.vkmusic.listgroup.models.CardGroup;
 import com.htccs.android.vkmusic.listgroup.models.Items;
 import com.htccs.android.vkmusic.listgroup.models.ResponseListGroup;
@@ -21,9 +24,10 @@ import java.util.List;
 
 import static com.htccs.android.vkmusic.listgroup.GroupsListFragment.TAG;
 
-public class GroupsPresenterImpl implements GroupsPresenter {
+public class GroupsPresenterImpl implements GroupsPresenter, View.OnClickListener {
 
     private GroupsView groupsView;
+    private FloatingActionButton actionButton;
     private FragmentInteraction fragmentInteraction;
     private ArrayList<CardGroup> cardGroups = new ArrayList<>();
 
@@ -34,9 +38,11 @@ public class GroupsPresenterImpl implements GroupsPresenter {
     private String iconGroup;
     private String numberGroup;
 
-    public GroupsPresenterImpl(GroupsView groupsView, FragmentInteraction fragmentInteraction) {
+    public GroupsPresenterImpl(View view, GroupsView groupsView, FragmentInteraction fragmentInteraction) {
         this.groupsView = groupsView;
         this.fragmentInteraction = fragmentInteraction;
+        actionButton = view.findViewById(R.id.fab);
+        actionButton.setOnClickListener(this);
     }
 
     @Override
@@ -46,7 +52,7 @@ public class GroupsPresenterImpl implements GroupsPresenter {
 
     @Override
     public void showGroupInfo(String groupId, String title) {
-        fragmentInteraction.onGroupItemCliked(groupId, title);
+        fragmentInteraction.onGroupItemClicked(groupId, title);
     }
 
     private void receptionData() {
@@ -80,5 +86,10 @@ public class GroupsPresenterImpl implements GroupsPresenter {
         nameGroup = items.getName();
         iconGroup = items.getPhotoFirstSize();
         numberGroup = items.getId().toString();
+    }
+
+    @Override
+    public void onClick(View view) {
+        fragmentInteraction.onFabClick();
     }
 }

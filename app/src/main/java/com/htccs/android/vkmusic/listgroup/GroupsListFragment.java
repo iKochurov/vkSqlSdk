@@ -42,7 +42,7 @@ public class GroupsListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View listGroupView = inflater.inflate(R.layout.fragment_list_groups, container, false);
         GroupsView groupsView = new GroupsViewImpl(listGroupView);
-        GroupsPresenter groupsPresenter = new GroupsPresenterImpl(groupsView, fragmentInteraction);
+        GroupsPresenter groupsPresenter = new GroupsPresenterImpl(listGroupView, groupsView, fragmentInteraction);
         ((GroupsViewImpl) groupsView).setPresenter(groupsPresenter);
         groupsPresenter.loadGroups();
         return listGroupView;
