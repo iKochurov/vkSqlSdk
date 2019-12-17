@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic.database.view;
+package com.htccs.android.vkmusic.database.databasewall.viewbd;
 
 import android.view.View;
 
@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.htccs.android.vkmusic.R;
-import com.htccs.android.vkmusic.database.presenter.DataBasePresenter;
+import com.htccs.android.vkmusic.database.databasewall.presenterbd.DataBasePresenter;
 import com.htccs.android.vkmusic.wallgroup.VkItemDecoration;
 
 import java.util.ArrayList;

@@ -65,6 +65,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
         private TextView cardRepost;
         private TextView cardDate;
         private String urlPicture;
+        private TextView commentPost;
 
         CardWallHolder(@NonNull final View itemView) {
             super(itemView);
@@ -75,6 +76,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             cardLike = itemView.findViewById(R.id.count_like);
             cardRepost = itemView.findViewById(R.id.count_repost);
             cardDate = itemView.findViewById(R.id.date_post);
+            commentPost = itemView.findViewById(R.id.count_comments);
 
             picturePost.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -93,7 +95,7 @@ public class WallViewAdapter extends RecyclerView.Adapter<WallViewAdapter.CardWa
             cardRepost.setText(cardWall.cardRepost);
             cardDate.setText(cardWall.cardDate);
             urlPicture = cardWall.cardMaxPicture;
-
+            commentPost.setText(cardWall.cardComment);
         }
 
         private void populateIcon(CardWall cardWall) {

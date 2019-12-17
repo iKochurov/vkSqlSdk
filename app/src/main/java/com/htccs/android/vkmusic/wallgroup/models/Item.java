@@ -37,6 +37,17 @@ public class Item {
     @SerializedName("reposts")
     @Expose
     private Reposts reposts;
+    @SerializedName("comments")
+    @Expose
+    private Comments comments;
+
+    public Comments getComments() {
+        return comments;
+    }
+
+    public void setComments(Comments comments) {
+        this.comments = comments;
+    }
 
     public Integer getId() {
         return id;

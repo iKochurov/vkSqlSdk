@@ -10,8 +10,9 @@ public class CardWall {
     public String cardRepost;
     public String cardDate;
     public String cardMaxPicture;
+    public String cardComment;
 
-    public CardWall(String nameGroup, String urlIconGroup, String textGroup, String urlPictureGroup, String cardLike, String cardRepost, String cardDate, String cardMaxPicture) {
+    public CardWall(String nameGroup, String urlIconGroup, String textGroup, String urlPictureGroup, String cardLike, String cardRepost, String cardDate, String cardMaxPicture, String cardComment) {
         this.cardTitle = nameGroup;
         this.cardText = textGroup;
         this.cardUrlIcon = urlIconGroup;
@@ -20,14 +21,16 @@ public class CardWall {
         this.cardRepost = cardRepost;
         this.cardDate = cardDate;
         this.cardMaxPicture = cardMaxPicture;
+        this.cardComment = cardComment;
     }
 
-    public CardWall(String nameGroup, String urlIconGroup, String textGroup, String cardLike, String cardRepost, String cardDate) {
+    public CardWall(String nameGroup, String urlIconGroup, String textGroup, String cardLike, String cardRepost, String cardDate, String cardComment) {
         this.cardTitle = nameGroup;
         this.cardText = textGroup;
         this.cardUrlIcon = urlIconGroup;
         this.cardLike = cardLike;
         this.cardRepost = cardRepost;
         this.cardDate = cardDate;
+        this.cardComment = cardComment;
     }
 }

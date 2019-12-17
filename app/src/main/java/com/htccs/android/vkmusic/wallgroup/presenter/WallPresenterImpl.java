@@ -3,6 +3,7 @@ package com.htccs.android.vkmusic.wallgroup.presenter;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -48,6 +49,7 @@ public class WallPresenterImpl implements WallPresenter {
     private String textWall;
     private String dateWall;
     private String postId;
+    private String countComment;
     private FragmentInteractionPicture interactionPicture;
     private PostDataBaseHelper baseHelper;
     private Context context;
@@ -84,29 +86,32 @@ public class WallPresenterImpl implements WallPresenter {
                 try {
                     String ownerParameters = "-" + vkList.get(0).fields.getInt("id");
 
-                    VKRequest requestWall = new VKApiWall()
-                            .get(VKParameters.from(VKApiConst.OWNER_ID, ownerParameters, VKApiConst.COUNT, 10));
+                    for (int l = 0; l <= 300; l += 100) {
 
-                    requestWall.executeWithListener(new VKRequest.VKRequestListener() {
+                        VKRequest requestWall = new VKApiWall()
+                                .get(VKParameters.from(VKApiConst.OWNER_ID, ownerParameters, VKApiConst.OFFSET, l, VKApiConst.COUNT, 100));
 
-                        @Override
-                        public void onComplete(VKResponse response) {
-                            super.onComplete(response);
+                        requestWall.executeWithListener(new VKRequest.VKRequestListener() {
 
-                            WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
-                            System.out.println(response.json.toString());
-                            List<Item> itemList = wallInfo.getResponse().getItems();
-                            ResponseGroup responseGroup = groupInfo.getResponse().get(0);
+                            @Override
+                            public void onComplete(VKResponse response) {
+                                super.onComplete(response);
 
-                            for (int i = 0; i < itemList.size(); i++) {
-                                Item itemPost = itemList.get(i);
+                                WallInfo wallInfo = gson.fromJson(response.json.toString(), WallInfo.class);
+                                System.out.println(response.json.toString());
+                                List<Item> itemList = wallInfo.getResponse().getItems();
+                                ResponseGroup responseGroup = groupInfo.getResponse().get(0);
 
-                                setInfo(responseGroup, itemPost);
-                                addCard(itemPost);
+                                for (int i = 0; i < itemList.size(); i++) {
+                                    Item itemPost = itemList.get(i);
+
+                                    setInfo(responseGroup, itemPost);
+                                    addCard(itemPost, numbergroup);
+                                }
+                                wallView.populateWall(cardWalls);
                             }
-                            wallView.populateWall(cardWalls);
-                        }
-                    });
+                        });
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -114,15 +119,15 @@ public class WallPresenterImpl implements WallPresenter {
         });
     }
 
-    private void addCard(Item item) {
+    private void addCard(Item item, String idGroup) {
         try {
             String urlPicture = item.getAttachments().get(0).getPhoto().getPhotoOneSize();
             String urlMaxPicture = findMaxSizePhoto(item.getAttachments().get(0).getPhoto());
-            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, urlPicture, countLike, countRepost, dateWall, urlMaxPicture));
-            populateDataBase(postId, nameGroup, urlIcon, dateWall, textWall, urlPicture, countLike, countRepost);
+            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, urlPicture, countLike, countRepost, dateWall, urlMaxPicture, countComment));
+            populateDataBase(postId, nameGroup, urlIcon, dateWall, textWall, urlPicture, countLike, countRepost, idGroup, countComment);
         } catch (NullPointerException e) {
-            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, countLike, countRepost, dateWall));
-            populateDataBase(postId, nameGroup, urlIcon, dateWall, textWall, null, countLike, countRepost);
+            cardWalls.add(new CardWall(nameGroup, urlIcon, textWall, countLike, countRepost, dateWall, countComment));
+            populateDataBase(postId, nameGroup, urlIcon, dateWall, textWall, null, countLike, countRepost, idGroup, countComment);
         }
     }
 
@@ -144,9 +149,10 @@ public class WallPresenterImpl implements WallPresenter {
         textWall = item.getText();
         dateWall = getDate(item.getDate());
         postId = String.valueOf(item.getId() + item.getId());
+        countComment = item.getComments().getCount().toString();
     }
 
-    private void populateDataBase(String id, String nameGroup, String icon, String date, String text, String picture, String like, String repost) {
+    private void populateDataBase(String id, String nameGroup, String icon, String date, String text, String picture, String like, String repost, String idGroup, String comment) {
         SQLiteDatabase database = baseHelper.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -162,13 +168,18 @@ public class WallPresenterImpl implements WallPresenter {
         }
         values.put(VkContract.PostTable.COLUMN_LIKE, Integer.parseInt(like));
         values.put(VkContract.PostTable.COLUMN_REPOST, repost);
+        values.put(VkContract.PostTable.COLUMN_GROUP_ID, idGroup);
+        values.put(VkContract.PostTable.COLUMN_COMMENT, comment);
 
-        long newRowId = database.insert(VkContract.PostTable.TABLE_NAME, null, values);
+        long newRowId = database.update(VkContract.PostTable.TABLE_NAME, values, "idPost = ?", new String[]{id});
+        if (newRowId == 0) {
+            newRowId = database.insert(VkContract.PostTable.TABLE_NAME, null, values);
+        }
 
         if (newRowId == -1) {
             Toast.makeText(context, "Ошибка при записи в БД", Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(context, "Успешно добавлено под номером " + newRowId, Toast.LENGTH_SHORT).show();
+            Log.d("nomer", String.valueOf(newRowId));
         }
     }
 

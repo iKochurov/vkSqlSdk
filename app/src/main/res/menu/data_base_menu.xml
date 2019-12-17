@@ -6,4 +6,10 @@
     <item
         android:id="@+id/action_show_max_like"
         android:title="Show max Like" />
+    <item
+        android:id="@+id/action_show_max_comment"
+        android:title="Show max Comment" />
+    <item
+        android:id="@+id/action_show_max_repost"
+        android:title="Show max Repost" />
 </menu>

@@ -19,6 +19,16 @@ public final class VkContract {
         public final static String COLUMN_IMAGE = "imagePost";
         public final static String COLUMN_DATE = "datePost";
         public final static String COLUMN_ICON = "iconPost";
+        public final static String COLUMN_GROUP_ID = "idGroup";
+        public final static String COLUMN_COMMENT = "commentPost";
+    }
 
+    public static final class GroupTable implements BaseColumns {
+        public final static String TABLE_NAME = "groups";
+
+        public final static String _ID = BaseColumns._ID;
+        public final static String COLUMN_NAME_GROUP = "groupName";
+        public final static String COLUMN_ICON = "iconPost";
+        public final static String COLUMN_GROUP_ID = "idGroup";
     }
 }

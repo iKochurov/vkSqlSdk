@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic.database.view;
+package com.htccs.android.vkmusic.database.databasewall.viewbd;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -50,6 +50,7 @@ public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.DataBa
     public void setCardWalls(List cardWalls) {
         this.cardWalls.clear();
         this.cardWalls.addAll(cardWalls);
+        notifyDataSetChanged();
     }
 
     class DataBaseHolder extends RecyclerView.ViewHolder {
@@ -62,6 +63,7 @@ public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.DataBa
         private TextView cardRepost;
         private TextView cardDate;
         private String urlPicture;
+        private TextView cardComment;
 
         DataBaseHolder(@NonNull final View itemView) {
             super(itemView);
@@ -72,6 +74,7 @@ public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.DataBa
             cardLike = itemView.findViewById(R.id.count_like);
             cardRepost = itemView.findViewById(R.id.count_repost);
             cardDate = itemView.findViewById(R.id.date_post);
+            cardComment = itemView.findViewById(R.id.count_comments);
 
         }
 
@@ -84,6 +87,7 @@ public class DataBaseAdapter extends RecyclerView.Adapter<DataBaseAdapter.DataBa
             cardRepost.setText(cardWall.cardRepost);
             cardDate.setText(cardWall.cardDate);
             urlPicture = cardWall.cardMaxPicture;
+            cardComment.setText(cardWall.cardComment);
 
         }
 

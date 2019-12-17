@@ -1,4 +1,4 @@
-package com.htccs.android.vkmusic.database;
+package com.htccs.android.vkmusic.database.databasewall;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,19 +12,20 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.htccs.android.vkmusic.R;
-import com.htccs.android.vkmusic.database.presenter.DataBasePresenter;
-import com.htccs.android.vkmusic.database.presenter.DataBasePresenterImpl;
-import com.htccs.android.vkmusic.database.view.DataBaseView;
-import com.htccs.android.vkmusic.database.view.DataBaseViewImpl;
+import com.htccs.android.vkmusic.database.databasewall.presenterbd.DataBasePresenter;
+import com.htccs.android.vkmusic.database.databasewall.presenterbd.DataBasePresenterImpl;
+import com.htccs.android.vkmusic.database.databasewall.viewbd.DataBaseView;
+import com.htccs.android.vkmusic.database.databasewall.viewbd.DataBaseViewImpl;
 
-public class DataBaseFragment extends Fragment {
-    public static final String TAG = DataBaseFragment.class.getSimpleName();
+public class DataBaseWallFragment extends Fragment {
+    public static final String TAG = DataBaseWallFragment.class.getSimpleName();
     private DataBasePresenter presenter;
+    private static final String GROUP_ID_EXTRA = "idGroup";
 
-    public static DataBaseFragment newInstance() {
+    public static DataBaseWallFragment newInstance(String groupId) {
         Bundle args = new Bundle();
-
-        DataBaseFragment fragment = new DataBaseFragment();
+        args.putString(GROUP_ID_EXTRA, groupId);
+        DataBaseWallFragment fragment = new DataBaseWallFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -55,11 +56,19 @@ public class DataBaseFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_show_all) {
-            presenter.showAllPost();
+            presenter.showAllPost(getArguments().getString(GROUP_ID_EXTRA));
             return true;
         }
         if (id == R.id.action_show_max_like) {
-            presenter.showMaxLikePost();
+            presenter.showMaxLikePost(getArguments().getString(GROUP_ID_EXTRA));
+            return true;
+        }
+        if (id == R.id.action_show_max_comment) {
+            presenter.showMaxComment(getArguments().getString(GROUP_ID_EXTRA));
+            return true;
+        }
+        if (id == R.id.action_show_max_repost) {
+            presenter.showMaxRepost(getArguments().getString(GROUP_ID_EXTRA));
             return true;
         }
         return super.onOptionsItemSelected(item);

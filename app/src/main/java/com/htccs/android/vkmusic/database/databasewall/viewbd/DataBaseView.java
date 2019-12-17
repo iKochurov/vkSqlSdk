@@ -1,6 +1,6 @@
-package com.htccs.android.vkmusic.database.view;
+package com.htccs.android.vkmusic.database.databasewall.viewbd;
 
-import com.htccs.android.vkmusic.database.presenter.DataBasePresenter;
+import com.htccs.android.vkmusic.database.databasewall.presenterbd.DataBasePresenter;
 
 import java.util.ArrayList;
 

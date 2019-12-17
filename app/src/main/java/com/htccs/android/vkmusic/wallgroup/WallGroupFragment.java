@@ -53,5 +53,4 @@ public class WallGroupFragment extends Fragment {
 
         return listGroupView;
     }
-
 }
