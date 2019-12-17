@@ -26,7 +26,7 @@ public class DataBasePresenterImpl implements DataBasePresenter {
     public void showAllPost(String groupId) {
 
         SQLiteDatabase db = baseHelper.getReadableDatabase();
-        //SELECT * FROM posts WHERE idGroup = 40836944
+        //SELECT * FROM posts WHERE idGroup = groupId
         Cursor cursor = db.query(
                 VkContract.PostTable.TABLE_NAME,
                 new String[]{"*"},
@@ -42,7 +42,7 @@ public class DataBasePresenterImpl implements DataBasePresenter {
     @Override
     public void showMaxLikePost(String groupId) {
         SQLiteDatabase db = baseHelper.getReadableDatabase();
-        //SELECT * FROM posts WHERE idGroup = 40836944 AND likePost = (SELECT MAX(likePost) FROM posts WHERE idGroup = 40836944)
+        //SELECT * FROM posts WHERE idGroup = 40836944 AND likePost = (SELECT MAX(likePost) FROM posts WHERE idGroup = groupId)
         Cursor cursor = db.query(VkContract.PostTable.TABLE_NAME,
                 new String[]{"*"},
                 VkContract.PostTable.COLUMN_GROUP_ID + " = " + groupId
@@ -61,7 +61,7 @@ public class DataBasePresenterImpl implements DataBasePresenter {
     @Override
     public void showMaxRepost(String groupId) {
         SQLiteDatabase db = baseHelper.getReadableDatabase();
-        //SELECT * FROM posts WHERE idGroup = 40836944 AND repostPost = (SELECT MAX(repostPost) FROM posts WHERE idGroup = 40836944)
+        //SELECT * FROM posts WHERE idGroup = 40836944 AND repostPost = (SELECT MAX(repostPost) FROM posts WHERE idGroup = groupId)
         Cursor cursor = db.query(VkContract.PostTable.TABLE_NAME,
                 new String[]{"*"},
                 VkContract.PostTable.COLUMN_GROUP_ID + " = " + groupId
@@ -80,7 +80,7 @@ public class DataBasePresenterImpl implements DataBasePresenter {
     @Override
     public void showMaxComment(String groupId) {
         SQLiteDatabase db = baseHelper.getReadableDatabase();
-        //SELECT * FROM posts WHERE idGroup = 40836944 AND commentPost = (SELECT MAX(commentPost) FROM posts WHERE idGroup = 40836944)
+        //SELECT * FROM posts WHERE idGroup = 40836944 AND commentPost = (SELECT MAX(commentPost) FROM posts WHERE idGroup = groupId)
         Cursor cursor = db.query(VkContract.PostTable.TABLE_NAME,
                 new String[]{"*"},
                 VkContract.PostTable.COLUMN_GROUP_ID + " = " + groupId
