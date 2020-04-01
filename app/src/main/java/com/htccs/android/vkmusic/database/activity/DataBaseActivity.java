@@ -52,6 +52,16 @@ public class DataBaseActivity extends AppCompatActivity implements FragmentInter
     }
 
     @Override
+    public void onFindClick() {
+
+    }
+
+    @Override
+    public void onFindingGroup(String id) {
+
+    }
+
+    @Override
     public void onBackPressed() {
         if (fragmentManager.getBackStackEntryCount() == 0) {
             super.onBackPressed();

@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.htccs.android.vkmusic.database.activity.DataBaseActivity;
+import com.htccs.android.vkmusic.finder.FinderFragment;
+import com.htccs.android.vkmusic.finder.findgroups.FindGroupsListFragment;
 import com.htccs.android.vkmusic.listgroup.GroupsListFragment;
 import com.htccs.android.vkmusic.loginvk.LoginFragment;
 import com.htccs.android.vkmusic.picturewall.PictureFragment;
@@ -75,6 +77,34 @@ public class PostsActivity extends AppCompatActivity implements FragmentInteract
     public void onFabClick() {
         Intent intent = new Intent(this, DataBaseActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onFindClick() {
+        setTitle("Поиск");
+        Fragment fragment = fragmentManager.findFragmentByTag(FinderFragment.TAG);
+        if (fragment == null) {
+            fragment = FinderFragment.newInstance();
+        }
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, FinderFragment.TAG)
+                .addToBackStack(null)
+                .commit();
+    }
+
+    @Override
+    public void onFindingGroup(String id) {
+        setTitle("Найдено");
+        Fragment fragment = fragmentManager.findFragmentByTag(FindGroupsListFragment.TAG);
+        if (fragment == null) {
+            fragment = FindGroupsListFragment.newInstance(id);
+        }
+        fragmentManager
+                .beginTransaction()
+                .replace(android.R.id.content, fragment, FindGroupsListFragment.TAG)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

@@ -3,9 +3,13 @@ package com.htccs.android.vkmusic.listgroup;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.htccs.android.vkmusic.FragmentInteraction;
@@ -36,6 +40,27 @@ public class GroupsListFragment extends Fragment {
         } else {
             throw new IllegalStateException("your activity must implement " + FragmentInteraction.class.getCanonicalName());
         }
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        setHasOptionsMenu(true);
+        super.onCreate(savedInstanceState);
+    }
+
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.find_menu, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_find) {
+            fragmentInteraction.onFindClick();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
